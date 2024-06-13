@@ -29,13 +29,24 @@ class Solution:
     return self.buildTreeRecursive(0, len(inorder) - 1)
 
   def buildTreeRecursive(self, inorderLeftIdx, inorderRightIdx):
+    # base case
     if inorderLeftIdx > inorderRightIdx:
       return None
 
+    # create a root node
     rootValue = self.postorder[self.postorderRootIdx]
     rootNode = TreeNode(rootValue)
+
+    # move postorder index to left
     self.postorderRootIdx -= 1
+
+    # locate position in inorder sequence
     inorderRootIdx = self.inorderIndices[rootValue]
+
+    # connect the right sub tree and left sub tree
+    # by recursing on the right and left side of the position in the inorder sequence within the current sub array indices
     rootNode.right = self.buildTreeRecursive(inorderRootIdx + 1, inorderRightIdx)
     rootNode.left = self.buildTreeRecursive(inorderLeftIdx, inorderRootIdx - 1)
+
+    #return the root node
     return rootNode
